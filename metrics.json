@@ -1,86 +1,107 @@
 [
   {
-    "clientId": "79711c84-af76-4225-b617-2407c1d17ee3",
-    "timestamp": "2024-06-05T14:43:43.892Z",
+    "clientId": "505353c3-640b-4475-8cfc-a0471fad2891",
+    "timestamp": "2024-06-07T14:02:35.048Z",
     "cpuUsage": {
-      "user": 46000,
-      "system": 15000
+      "user": 15000,
+      "system": 0
     },
     "memoryUsage": {
-      "rss": 41455616,
-      "heapTotal": 11935744,
-      "heapUsed": 7809592,
-      "external": 3272022,
-      "arrayBuffers": 17341
+      "rss": 40263680,
+      "heapTotal": 12046336,
+      "heapUsed": 7927032,
+      "external": 3968967,
+      "arrayBuffers": 17253
     },
     "loadAvg": [
       0,
       0,
       0
     ],
-    "uptime": 5.1012177
+    "uptime": 5.0917563
   },
   {
-    "clientId": "79711c84-af76-4225-b617-2407c1d17ee3",
-    "timestamp": "2024-06-05T14:43:48.915Z",
+    "clientId": "505353c3-640b-4475-8cfc-a0471fad2891",
+    "timestamp": "2024-06-07T14:02:40.082Z",
     "cpuUsage": {
-      "user": 46000,
-      "system": 15000
+      "user": 15000,
+      "system": 0
     },
     "memoryUsage": {
-      "rss": 40906752,
-      "heapTotal": 8491008,
-      "heapUsed": 6778936,
-      "external": 3279176,
-      "arrayBuffers": 17345
+      "rss": 39903232,
+      "heapTotal": 8593408,
+      "heapUsed": 6892696,
+      "external": 3976181,
+      "arrayBuffers": 17257
     },
     "loadAvg": [
       0,
       0,
       0
     ],
-    "uptime": 10.1241938
+    "uptime": 10.1253773
   },
   {
-    "clientId": "79711c84-af76-4225-b617-2407c1d17ee3",
-    "timestamp": "2024-06-05T14:43:58.936Z",
+    "clientId": "505353c3-640b-4475-8cfc-a0471fad2891",
+    "timestamp": "2024-06-07T14:02:45.088Z",
     "cpuUsage": {
-      "user": 46000,
-      "system": 15000
+      "user": 15000,
+      "system": 0
     },
     "memoryUsage": {
-      "rss": 41738240,
-      "heapTotal": 8491008,
-      "heapUsed": 7633600,
-      "external": 3279451,
-      "arrayBuffers": 17620
+      "rss": 40194048,
+      "heapTotal": 8593408,
+      "heapUsed": 7464704,
+      "external": 3976456,
+      "arrayBuffers": 17532
     },
     "loadAvg": [
       0,
       0,
       0
     ],
-    "uptime": 20.1444848
+    "uptime": 15.1306066
   },
   {
-    "clientId": "79711c84-af76-4225-b617-2407c1d17ee3",
-    "timestamp": "2024-06-05T14:44:03.939Z",
+    "clientId": "505353c3-640b-4475-8cfc-a0471fad2891",
+    "timestamp": "2024-06-07T14:02:55.096Z",
     "cpuUsage": {
-      "user": 46000,
-      "system": 15000
+      "user": 15000,
+      "system": 0
     },
     "memoryUsage": {
-      "rss": 41893888,
-      "heapTotal": 8491008,
-      "heapUsed": 7752152,
-      "external": 3279726,
-      "arrayBuffers": 17895
+      "rss": 40927232,
+      "heapTotal": 8593408,
+      "heapUsed": 7874984,
+      "external": 3976731,
+      "arrayBuffers": 17807
     },
     "loadAvg": [
       0,
       0,
       0
     ],
-    "uptime": 25.1482675
+    "uptime": 25.1394805
+  },
+  {
+    "clientId": "505353c3-640b-4475-8cfc-a0471fad2891",
+    "timestamp": "2024-06-07T14:03:00.099Z",
+    "cpuUsage": {
+      "user": 15000,
+      "system": 0
+    },
+    "memoryUsage": {
+      "rss": 41037824,
+      "heapTotal": 8593408,
+      "heapUsed": 7975704,
+      "external": 3977006,
+      "arrayBuffers": 18082
+    },
+    "loadAvg": [
+      0,
+      0,
+      0
+    ],
+    "uptime": 30.1419952
   }
 ]
