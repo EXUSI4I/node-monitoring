@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,61 +10,72 @@
             width: 100%;
             border-collapse: collapse;
         }
-        th, td {
+
+        th,
+        td {
             border: 1px solid #ddd;
             padding: 8px;
             text-align: left;
         }
+
         th {
             background-color: #f2f2f2;
         }
+
         button {
             margin: 10px;
             padding: 10px 20px;
             font-size: 16px;
         }
+
+        .healthy {
+            background-color: #d4edda;
+        }
+
+        .unhealthy {
+            background-color: #f8d7da;
+        }
     </style>
 </head>
+
 <body>
-<h1>Node Monitoring Dashboard</h1>
-<button id="fetch-archived">Show Archived Metrics</button>
-<table id="metrics-table">
-    <thead>
-    <tr>
-        <th>Client ID</th>
-        <th>Timestamp</th>
-        <th>CPU Usage (User)</th>
-        <th>CPU Usage (System)</th>
-        <th>Memory Usage (RSS)</th>
-        <th>Memory Usage (Heap Total)</th>
-        <th>Memory Usage (Heap Used)</th>
-        <th>Memory Usage (External)</th>
-<!--        <th>Load Average (1 min)</th>-->
-<!--        <th>Load Average (5 min)</th>-->
-<!--        <th>Load Average (15 min)</th>-->
-        <th>Uptime (seconds)</th>
-    </tr>
-    </thead>
-    <tbody id="metrics-body">
-    </tbody>
-</table>
+    <h1>Node Monitoring Dashboard</h1>
+    <button id="fetch-archived">Show Archived Metrics</button>
+    <table id="metrics-table">
+        <thead>
+            <tr>
+                <th>Client ID</th>
+                <th>Timestamp</th>
+                <th>CPU Usage (User)</th>
+                <th>CPU Usage (System)</th>
+                <th>Memory Usage (RSS)</th>
+                <th>Memory Usage (Heap Total)</th>
+                <th>Memory Usage (Heap Used)</th>
+                <th>Memory Usage (External)</th>
+                <th>Uptime (seconds)</th>
+                <th>Health Status</th>
+            </tr>
+        </thead>
+        <tbody id="metrics-body">
+        </tbody>
+    </table>
 
-<script>
-    async function fetchMetrics(url, tableBodyId) {
-        const response = await fetch(url);
-        const metrics = await response.json();
+    <script>
+        async function fetchMetrics(url, tableBodyId) {
+            const response = await fetch(url);
+            const metrics = await response.json();
 
-        const tableBody = document.getElementById(tableBodyId);
+            const tableBody = document.getElementById(tableBodyId);
 
-        metrics.forEach(metric => {
-            let row = document.querySelector(`#metrics-body tr[data-client-id="${metric.clientId}"]`);
-            if (!row) {
-                row = document.createElement('tr');
-                row.setAttribute('data-client-id', metric.clientId);
-                tableBody.appendChild(row);
-            }
+            metrics.forEach(metric => {
+                let row = document.querySelector(`#metrics-body tr[data-client-id="${metric.clientId}"]`);
+                if (!row) {
+                    row = document.createElement('tr');
+                    row.setAttribute('data-client-id', metric.clientId);
+                    tableBody.appendChild(row);
+                }
 
-            row.innerHTML = `
+                row.innerHTML = `
           <td>${metric.clientId}</td>
           <td>${new Date(metric.timestamp).toLocaleString()}</td>
           <td>${metric.cpuUsage.user}</td>
@@ -72,21 +84,20 @@
           <td>${metric.memoryUsage.heapTotal}</td>
           <td>${metric.memoryUsage.heapUsed}</td>
           <td>${metric.memoryUsage.external}</td>
-<!--           <td>${metric.loadAvg[0]}</td>   -->
-<!--           <td>${metric.loadAvg[1]}</td>   -->
-<!--           <td>${metric.loadAvg[2]}</td>    -->
           <td>${metric.uptime}</td>
+          <td class="${metric.healthStatus}">${metric.healthStatus}</td>
         `;
+            });
+        }
+
+        document.getElementById('fetch-archived').addEventListener('click', () => {
+            fetchMetrics('http://localhost:3000/archived-metrics', 'metrics-body');
         });
-    }
 
-    document.getElementById('fetch-archived').addEventListener('click', () => {
-        fetchMetrics('http://localhost:3000/archived-metrics', 'metrics-body');
-    });
-
-    setInterval(() => {
-        fetchMetrics('http://localhost:3000/all-metrics', 'metrics-body');
-    }, 5000); // Fetch metrics every 5 seconds
-</script>
+        setInterval(() => {
+            fetchMetrics('http://localhost:3000/all-metrics', 'metrics-body');
+        }, 5000); // Fetch metrics every 5 seconds
+    </script>
 </body>
+
 </html>

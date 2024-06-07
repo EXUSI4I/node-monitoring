@@ -8,6 +8,19 @@ class NodeMonitoringClient {
         this.serverUrl = serverUrl;
     }
 
+    calculateHealthStatus(cpuUsage, memoryUsage) {
+        const cpuThreshold = 80; // 80% CPU usage threshold
+        const memoryThreshold = 75 * 1024 * 1024; // 75MB memory usage threshold
+        
+        const cpuLoad = (cpuUsage.user + cpuUsage.system) / 1000000; // Convert microseconds to seconds
+        const memoryLoad = memoryUsage.heapUsed;
+
+        if (cpuLoad > cpuThreshold || memoryLoad > memoryThreshold) {
+            return 'unhealthy';
+        }
+        return 'healthy';
+    }
+
     async sendMetrics() {
         const metrics = {
             clientId: this.clientId,
@@ -16,6 +29,7 @@ class NodeMonitoringClient {
             memoryUsage: process.memoryUsage(),
             loadAvg: os.loadavg(),
             uptime: process.uptime(),
+            healthStatus: this.calculateHealthStatus(process.cpuUsage(), process.memoryUsage())
         };
 
         try {
@@ -23,13 +37,10 @@ class NodeMonitoringClient {
             console.log('Metrics sent:', metrics);
         } catch (error) {
             if (error.response) {
-                // Server responded with a status other than 2xx
                 console.error('Error response:', error.response.status, error.response.data);
             } else if (error.request) {
-                // No response received
                 console.error('No response received:', error.request);
             } else {
-                // Other errors
                 console.error('Error setting up request:', error.message);
             }
             console.error('Error config:', error.config);
