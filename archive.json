@@ -22594,5 +22594,341 @@
       0
     ],
     "uptime": 8884.5636715
+  },
+  {
+    "clientId": "505353c3-640b-4475-8cfc-a0471fad2891",
+    "timestamp": "2024-06-07T14:02:35.048Z",
+    "cpuUsage": {
+      "user": 15000,
+      "system": 0
+    },
+    "memoryUsage": {
+      "rss": 40263680,
+      "heapTotal": 12046336,
+      "heapUsed": 7927032,
+      "external": 3968967,
+      "arrayBuffers": 17253
+    },
+    "loadAvg": [
+      0,
+      0,
+      0
+    ],
+    "uptime": 5.0917563
+  },
+  {
+    "clientId": "505353c3-640b-4475-8cfc-a0471fad2891",
+    "timestamp": "2024-06-07T14:02:40.082Z",
+    "cpuUsage": {
+      "user": 15000,
+      "system": 0
+    },
+    "memoryUsage": {
+      "rss": 39903232,
+      "heapTotal": 8593408,
+      "heapUsed": 6892696,
+      "external": 3976181,
+      "arrayBuffers": 17257
+    },
+    "loadAvg": [
+      0,
+      0,
+      0
+    ],
+    "uptime": 10.1253773
+  },
+  {
+    "clientId": "505353c3-640b-4475-8cfc-a0471fad2891",
+    "timestamp": "2024-06-07T14:02:45.088Z",
+    "cpuUsage": {
+      "user": 15000,
+      "system": 0
+    },
+    "memoryUsage": {
+      "rss": 40194048,
+      "heapTotal": 8593408,
+      "heapUsed": 7464704,
+      "external": 3976456,
+      "arrayBuffers": 17532
+    },
+    "loadAvg": [
+      0,
+      0,
+      0
+    ],
+    "uptime": 15.1306066
+  },
+  {
+    "clientId": "505353c3-640b-4475-8cfc-a0471fad2891",
+    "timestamp": "2024-06-07T14:02:55.096Z",
+    "cpuUsage": {
+      "user": 15000,
+      "system": 0
+    },
+    "memoryUsage": {
+      "rss": 40927232,
+      "heapTotal": 8593408,
+      "heapUsed": 7874984,
+      "external": 3976731,
+      "arrayBuffers": 17807
+    },
+    "loadAvg": [
+      0,
+      0,
+      0
+    ],
+    "uptime": 25.1394805
+  },
+  {
+    "clientId": "505353c3-640b-4475-8cfc-a0471fad2891",
+    "timestamp": "2024-06-07T14:03:00.099Z",
+    "cpuUsage": {
+      "user": 15000,
+      "system": 0
+    },
+    "memoryUsage": {
+      "rss": 41037824,
+      "heapTotal": 8593408,
+      "heapUsed": 7975704,
+      "external": 3977006,
+      "arrayBuffers": 18082
+    },
+    "loadAvg": [
+      0,
+      0,
+      0
+    ],
+    "uptime": 30.1419952
+  },
+  {
+    "clientId": "e9141ba9-5ec0-45ea-a6ab-f774fa5db224",
+    "timestamp": "2024-06-07T14:28:48.213Z",
+    "cpuUsage": {
+      "user": 31000,
+      "system": 0
+    },
+    "memoryUsage": {
+      "rss": 40132608,
+      "heapTotal": 12046336,
+      "heapUsed": 7890616,
+      "external": 3968967,
+      "arrayBuffers": 17253
+    },
+    "loadAvg": [
+      0,
+      0,
+      0
+    ],
+    "uptime": 5.0841304
+  },
+  {
+    "clientId": "e9141ba9-5ec0-45ea-a6ab-f774fa5db224",
+    "timestamp": "2024-06-07T14:28:53.230Z",
+    "cpuUsage": {
+      "user": 31000,
+      "system": 0
+    },
+    "memoryUsage": {
+      "rss": 40058880,
+      "heapTotal": 8593408,
+      "heapUsed": 6931744,
+      "external": 3976181,
+      "arrayBuffers": 17257
+    },
+    "loadAvg": [
+      0,
+      0,
+      0
+    ],
+    "uptime": 10.1004488
+  },
+  {
+    "clientId": "e9141ba9-5ec0-45ea-a6ab-f774fa5db224",
+    "timestamp": "2024-06-07T14:28:58.230Z",
+    "cpuUsage": {
+      "user": 31000,
+      "system": 0
+    },
+    "memoryUsage": {
+      "rss": 40255488,
+      "heapTotal": 8593408,
+      "heapUsed": 7288696,
+      "external": 3976456,
+      "arrayBuffers": 17532
+    },
+    "loadAvg": [
+      0,
+      0,
+      0
+    ],
+    "uptime": 15.1004217
+  },
+  {
+    "clientId": "e9141ba9-5ec0-45ea-a6ab-f774fa5db224",
+    "timestamp": "2024-06-07T14:29:08.237Z",
+    "cpuUsage": {
+      "user": 31000,
+      "system": 0
+    },
+    "memoryUsage": {
+      "rss": 40964096,
+      "heapTotal": 8593408,
+      "heapUsed": 7841152,
+      "external": 3976731,
+      "arrayBuffers": 17807
+    },
+    "loadAvg": [
+      0,
+      0,
+      0
+    ],
+    "uptime": 25.108001
+  },
+  {
+    "clientId": "e9141ba9-5ec0-45ea-a6ab-f774fa5db224",
+    "timestamp": "2024-06-07T14:29:13.239Z",
+    "cpuUsage": {
+      "user": 31000,
+      "system": 0
+    },
+    "memoryUsage": {
+      "rss": 41095168,
+      "heapTotal": 8593408,
+      "heapUsed": 7947768,
+      "external": 3977006,
+      "arrayBuffers": 18082
+    },
+    "loadAvg": [
+      0,
+      0,
+      0
+    ],
+    "uptime": 30.1099912
+  },
+  {
+    "clientId": "e9141ba9-5ec0-45ea-a6ab-f774fa5db224",
+    "timestamp": "2024-06-07T14:29:18.240Z",
+    "cpuUsage": {
+      "user": 31000,
+      "system": 0
+    },
+    "memoryUsage": {
+      "rss": 41226240,
+      "heapTotal": 8855552,
+      "heapUsed": 8292224,
+      "external": 3977281,
+      "arrayBuffers": 18357
+    },
+    "loadAvg": [
+      0,
+      0,
+      0
+    ],
+    "uptime": 35.1106636
+  },
+  {
+    "clientId": "e9141ba9-5ec0-45ea-a6ab-f774fa5db224",
+    "timestamp": "2024-06-07T14:29:23.242Z",
+    "cpuUsage": {
+      "user": 31000,
+      "system": 0
+    },
+    "memoryUsage": {
+      "rss": 41316352,
+      "heapTotal": 8855552,
+      "heapUsed": 8376072,
+      "external": 3977556,
+      "arrayBuffers": 18632
+    },
+    "loadAvg": [
+      0,
+      0,
+      0
+    ],
+    "uptime": 40.1130579
+  },
+  {
+    "clientId": "316574e2-0129-4896-83e8-9ef501be0c16",
+    "timestamp": "2024-06-07T14:43:32.399Z",
+    "cpuUsage": {
+      "user": 15000,
+      "system": 0
+    },
+    "memoryUsage": {
+      "rss": 40275968,
+      "heapTotal": 11882496,
+      "heapUsed": 7668464,
+      "external": 3272022,
+      "arrayBuffers": 17341
+    },
+    "loadAvg": [
+      0,
+      0,
+      0
+    ],
+    "uptime": 5.1097579
+  },
+  {
+    "clientId": "316574e2-0129-4896-83e8-9ef501be0c16",
+    "timestamp": "2024-06-07T14:43:37.429Z",
+    "cpuUsage": {
+      "user": 31000,
+      "system": 0
+    },
+    "memoryUsage": {
+      "rss": 40042496,
+      "heapTotal": 8630272,
+      "heapUsed": 6947912,
+      "external": 3279176,
+      "arrayBuffers": 17345
+    },
+    "loadAvg": [
+      0,
+      0,
+      0
+    ],
+    "uptime": 10.13945
+  },
+  {
+    "clientId": "316574e2-0129-4896-83e8-9ef501be0c16",
+    "timestamp": "2024-06-07T14:43:42.433Z",
+    "cpuUsage": {
+      "user": 31000,
+      "system": 0
+    },
+    "memoryUsage": {
+      "rss": 40247296,
+      "heapTotal": 8630272,
+      "heapUsed": 7316944,
+      "external": 3279451,
+      "arrayBuffers": 17620
+    },
+    "loadAvg": [
+      0,
+      0,
+      0
+    ],
+    "uptime": 15.1434474
+  },
+  {
+    "clientId": "316574e2-0129-4896-83e8-9ef501be0c16",
+    "timestamp": "2024-06-07T14:43:47.437Z",
+    "cpuUsage": {
+      "user": 31000,
+      "system": 0
+    },
+    "memoryUsage": {
+      "rss": 40419328,
+      "heapTotal": 8630272,
+      "heapUsed": 7410928,
+      "external": 3279726,
+      "arrayBuffers": 17895
+    },
+    "loadAvg": [
+      0,
+      0,
+      0
+    ],
+    "uptime": 20.1471906
   }
 ]
