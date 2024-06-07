@@ -22930,5 +22930,47 @@
       0
     ],
     "uptime": 20.1471906
+  },
+  {
+    "clientId": "02ee5f32-a581-4b5e-801a-17835e1a40dd",
+    "timestamp": "2024-06-07T14:46:04.741Z",
+    "cpuUsage": {
+      "user": 46000,
+      "system": 15000
+    },
+    "memoryUsage": {
+      "rss": 40329216,
+      "heapTotal": 11882496,
+      "heapUsed": 7668992,
+      "external": 3272022,
+      "arrayBuffers": 17341
+    },
+    "loadAvg": [
+      0,
+      0,
+      0
+    ],
+    "uptime": 5.1259039
+  },
+  {
+    "clientId": "02ee5f32-a581-4b5e-801a-17835e1a40dd",
+    "timestamp": "2024-06-07T14:46:09.776Z",
+    "cpuUsage": {
+      "user": 78000,
+      "system": 15000
+    },
+    "memoryUsage": {
+      "rss": 40255488,
+      "heapTotal": 8630272,
+      "heapUsed": 6823392,
+      "external": 3279176,
+      "arrayBuffers": 17345
+    },
+    "loadAvg": [
+      0,
+      0,
+      0
+    ],
+    "uptime": 10.1612465
   }
 ]
