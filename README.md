@@ -65,3 +65,12 @@ Go to any search engine and use the following command:
 http://localhost:3000/ui/index.html
 ```
 *Notice: The server is always listening on port 3000.
+
+### Master API command to Servant HTTP
+
+POST: http://localhost:3000/commands
+x-www-form-urlencoded
+Body: key = command, value = count
+
+GET: http://localhost:3000/commands/status?command=count
+Params: key = command, value = count
