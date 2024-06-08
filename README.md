@@ -36,7 +36,18 @@ The server is responsible for distributing tasks and monitoring the health statu
 ```bash
 node app.js
 ```
+4. Open Command Prompt:
 
+- Press Windows Key + R, type 'cmd', and press Enter.
+5. Find Your IPv4 Address:
+
+- In the Command Prompt, type the following command:
+```bash
+ipconfig
+```
+- Look for the IPv4 Address under the network adapter you are using. It will look something like '192.168.1.x'.
+6. Update 'serverUrl' in client.js Code:
+  - Replace 'serverUrl' with the IP address of the machine running the server.
 ### 4. Running the Client
 Each client fetches tasks from the server, executes them, and periodically reports its health status.
 
