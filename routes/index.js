@@ -58,4 +58,15 @@ router.get('/archived-metrics', (req, res) => {
   }
 });
 
+// Endpoint to delete all metrics
+router.delete('/delete-all-metrics', (req, res) => {
+  if (fs.existsSync(metricsFilePath)) {
+    fs.unlinkSync(metricsFilePath);
+  }
+  if (fs.existsSync(archiveFilePath)) {
+    fs.unlinkSync(archiveFilePath);
+  }
+  res.send({ status: 'success' });
+});
+
 module.exports = router;
