@@ -8,16 +8,6 @@
         table {
             width: 100%;
             border-collapse: collapse;
-        }<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Node Monitoring Dashboard</title>
-    <style>
-        table {
-            width: 100%;
-            border-collapse: collapse;
         }
         th, td {
             border: 1px solid #ddd;
@@ -43,17 +33,17 @@
     <tr>
         <th>Client ID</th>
         <th>Timestamp</th>
-        <th>CPU Usage (User)</th>   <!--CPU time used by user processes-->
+        <th>CPU Usage (User)</th>
         <th>CPU Usage (User %)</th>
-        <th>CPU Usage (System)</th> <!--CPU time used by system processes-->
+        <th>CPU Usage (System)</th>
         <th>CPU Usage (System %)</th>
-        <th>Memory Usage (RSS)</th> <!--The total memory allocated for the process in RAM-->
+        <th>Memory Usage (RSS)</th>
         <th>Memory Usage (RSS %)</th>
-        <th>Memory Usage (Heap Total)</th>  <!--The total size of the allocated heap-->
+        <th>Memory Usage (Heap Total)</th>
         <th>Memory Usage (Heap Total %)</th>
-        <th>Memory Usage (Heap Used)</th>   <!--The amount of heap that is currently used-->
+        <th>Memory Usage (Heap Used)</th>
         <th>Memory Usage (Heap Used %)</th>
-        <th>Memory Usage (External)</th>    <!--Memory usage outside of the V8 heap-->
+        <th>Memory Usage (External)</th>
         <th>Memory Usage (External %)</th>
         <th>Uptime (seconds)</th>
     </tr>
@@ -99,114 +89,6 @@
                 <td>${metric.memoryUsage.externalPercent}%</td>
                 <td>${metric.uptime}</td>
             `;
-        });
-    }
-
-    async function updateMetrics() {
-        if (showingArchived) {
-            await fetchMetrics('http://localhost:3000/archived-metrics', 'metrics-body');
-        } else {
-            await fetchMetrics('http://localhost:3000/all-metrics', 'metrics-body');
-        }
-    }
-
-    async function deleteAllMetrics() {
-        await fetch('http://localhost:3000/delete-all-metrics', { method: 'DELETE' });
-        updateMetrics(); // Refresh the metrics display
-    }
-
-    toggleButton.addEventListener('click', () => {
-        showingArchived = !showingArchived;
-        toggleButton.textContent = showingArchived ? 'Show New Metrics' : 'Show Archived Metrics';
-        updateMetrics();
-    });
-
-    deleteButton.addEventListener('click', () => {
-        if (confirm('Are you sure you want to delete all metrics?')) {
-            deleteAllMetrics();
-        }
-    });
-
-    setInterval(() => {
-        updateMetrics();
-    }, 5000); // Fetch metrics every 5 seconds
-
-    // Initial fetch
-    updateMetrics();
-</script>
-</body>
-</html>
-
-        th, td {
-            border: 1px solid #ddd;
-            padding: 8px;
-            text-align: left;
-        }
-        th {
-            background-color: #f2f2f2;
-        }
-        button {
-            margin: 10px;
-            padding: 10px 20px;
-            font-size: 16px;
-        }
-    </style>
-</head>
-<body>
-<h1>Node Monitoring Dashboard</h1>
-<button id="toggle-metrics">Show Archived Metrics</button>
-<button id="delete-all-metrics">Delete All Metrics</button>
-<table id="metrics-table">
-    <thead>
-    <tr>
-        <th>Client ID</th>
-        <th>Timestamp</th>
-        <th>CPU Usage (User)</th>
-        <th>CPU Usage (System)</th>
-        <th>Memory Usage (RSS)</th>
-        <th>Memory Usage (Heap Total)</th>
-        <th>Memory Usage (Heap Used)</th>
-        <th>Memory Usage (External)</th>
-
-        <th>Uptime (seconds)</th>
-    </tr>
-    </thead>
-    <tbody id="metrics-body">
-    </tbody>
-</table>
-
-<script>
-    let showingArchived = false;
-    const toggleButton = document.getElementById('toggle-metrics');
-    const deleteButton = document.getElementById('delete-all-metrics');
-
-    async function fetchMetrics(url, tableBodyId) {
-        const response = await fetch(url);
-        const metrics = await response.json();
-
-        const tableBody = document.getElementById(tableBodyId);
-        tableBody.innerHTML = ''; // Clear the table body
-
-        metrics.forEach(metric => {
-            let row = document.querySelector(`#metrics-body tr[data-client-id="${metric.clientId}"]`);
-            if (!row) {
-                row = document.createElement('tr');
-                row.setAttribute('data-client-id', metric.clientId);
-                tableBody.appendChild(row);
-            }
-
-            row.innerHTML = `
-          <td>${metric.clientId}</td>
-          <td>${new Date(metric.timestamp).toLocaleString()}</td>
-          <td>${metric.cpuUsage.user}</td>
-          <td>${metric.cpuUsage.system}</td>
-          <td>${metric.memoryUsage.rss}</td>
-          <td>${metric.memoryUsage.heapTotal}</td>
-          <td>${metric.memoryUsage.heapUsed}</td>
-          <td>${metric.memoryUsage.external}</td>
-
-          <td>${metric.uptime}</td>
-        `;
         });
     }
 
