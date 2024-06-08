@@ -1,4 +1,4 @@
-# Distributed Task Management System
+# Node Health Checking and Monitoring System
 
 This project demonstrates a basic distributed task management system where a main computer (server) assigns tasks to worker computers (clients), checks and monitors their health status.
 
@@ -17,7 +17,7 @@ This project demonstrates a basic distributed task management system where a mai
 ### 1. Clone the Repository
 
 ```bash
-git clone https://github.com/your-username/distributed-task-management.git
+git clone https://github.com/EXUSI4I/node-monitoring.git
 cd distributed-task-management
 ```
 
@@ -47,3 +47,10 @@ Each client fetches tasks from the server, executes them, and periodically repor
 cd Client
 node client.js
 ```
+
+### 5. Display the data
+Go to any search engine and use the following command:
+```bash
+http://localhost:3000/ui/index.html
+```
+*Notice: The server is always listening on port 3000.
