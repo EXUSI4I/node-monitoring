@@ -18,7 +18,7 @@ This project demonstrates a basic distributed task management system where a mai
 
 ```bash
 git clone https://github.com/EXUSI4I/node-monitoring.git
-cd distributed-task-management
+cd node-monitoring
 ```
 
 
