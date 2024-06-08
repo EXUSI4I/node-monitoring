@@ -1,0 +1,153 @@
+Index: Client/client.js
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>const axios = require('axios');\r\nconst os = require('os');\r\nconst { v4: uuidv4 } = require('uuid');\r\n\r\nclass NodeMonitoringClient {\r\n    constructor(clientId, serverUrl) {\r\n        this.clientId = clientId;\r\n        this.serverUrl = serverUrl;\r\n    }\r\n\r\n    calculateHealthStatus(cpuUsage, memoryUsage) {\r\n        const cpuThreshold = 80; // 80% CPU usage threshold\r\n        const memoryThreshold = 75 * 1024 * 1024; // 75MB memory usage threshold\r\n        \r\n        const cpuLoad = (cpuUsage.user + cpuUsage.system) / 1000000; // Convert microseconds to seconds\r\n        const memoryLoad = memoryUsage.heapUsed;\r\n\r\n        if (cpuLoad > cpuThreshold || memoryLoad > memoryThreshold) {\r\n            return 'unhealthy';\r\n        }\r\n        return 'healthy';\r\n    }\r\n\r\n    async sendMetrics() {\r\n        const metrics = {\r\n            clientId: this.clientId,\r\n            timestamp: new Date(),\r\n            cpuUsage: process.cpuUsage(),\r\n            memoryUsage: process.memoryUsage(),\r\n            loadAvg: os.loadavg(),\r\n            uptime: process.uptime(),\r\n            healthStatus: this.calculateHealthStatus(process.cpuUsage(), process.memoryUsage())\r\n        };\r\n\r\n        try {\r\n            await axios.post(`${this.serverUrl}/metrics`, metrics);\r\n            console.log('Metrics sent:', metrics);\r\n        } catch (error) {\r\n            if (error.response) {\r\n                console.error('Error response:', error.response.status, error.response.data);\r\n            } else if (error.request) {\r\n                console.error('No response received:', error.request);\r\n            } else {\r\n                console.error('Error setting up request:', error.message);\r\n            }\r\n            console.error('Error config:', error.config);\r\n        }\r\n    }\r\n}\r\n\r\n// Configure client ID and server URL\r\nconst clientId = uuidv4();\r\nconst serverUrl = 'http://localhost:3000'; // Update with actual server URL\r\n\r\n// Create client instance and start sending metrics\r\nconst client = new NodeMonitoringClient(clientId, serverUrl);\r\n\r\nsetInterval(() => {\r\n    client.sendMetrics();\r\n}, 5000); // Send metrics every 5 seconds\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/Client/client.js b/Client/client.js
+--- a/Client/client.js	
++++ b/Client/client.js	
+@@ -1,35 +1,56 @@
+-const axios = require('axios');
+ const os = require('os');
++const axios = require('axios');
+ const { v4: uuidv4 } = require('uuid');
+ 
+ class NodeMonitoringClient {
+     constructor(clientId, serverUrl) {
+         this.clientId = clientId;
+         this.serverUrl = serverUrl;
++        this.totalMemory = os.totalmem();
++        this.prevCpuUsage = process.cpuUsage();
++        this.prevUptime = process.uptime();
+     }
+ 
+-    calculateHealthStatus(cpuUsage, memoryUsage) {
+-        const cpuThreshold = 80; // 80% CPU usage threshold
+-        const memoryThreshold = 75 * 1024 * 1024; // 75MB memory usage threshold
+-        
+-        const cpuLoad = (cpuUsage.user + cpuUsage.system) / 1000000; // Convert microseconds to seconds
+-        const memoryLoad = memoryUsage.heapUsed;
++    calculateCpuUsagePercentage() {
++        const currentCpuUsage = process.cpuUsage();
++        const currentUptime = process.uptime();
++
++        const userCpuTime = currentCpuUsage.user - this.prevCpuUsage.user;
++        const systemCpuTime = currentCpuUsage.system - this.prevCpuUsage.system;
++        const elapsedTime = (currentUptime - this.prevUptime) * 1000000; // Convert to microseconds
+ 
+-        if (cpuLoad > cpuThreshold || memoryLoad > memoryThreshold) {
+-            return 'unhealthy';
+-        }
+-        return 'healthy';
++        const userCpuPercentage = ((userCpuTime / elapsedTime) * 100).toFixed(2);
++        const systemCpuPercentage = ((systemCpuTime / elapsedTime) * 100).toFixed(2);
++
++        this.prevCpuUsage = currentCpuUsage;
++        this.prevUptime = currentUptime;
++
++        return { userCpuPercentage, systemCpuPercentage };
+     }
+ 
+     async sendMetrics() {
++        const memoryUsage = process.memoryUsage();
++        const totalMemory = this.totalMemory;
++        const { userCpuPercentage, systemCpuPercentage } = this.calculateCpuUsagePercentage();
++
+         const metrics = {
+             clientId: this.clientId,
+             timestamp: new Date(),
+-            cpuUsage: process.cpuUsage(),
+-            memoryUsage: process.memoryUsage(),
++            cpuUsage: {
++                ...process.cpuUsage(),
++                userCpuPercentage,
++                systemCpuPercentage
++            },
++            memoryUsage: {
++                ...memoryUsage,
++                rssPercent: ((memoryUsage.rss / totalMemory) * 100).toFixed(2),
++                heapTotalPercent: ((memoryUsage.heapTotal / totalMemory) * 100).toFixed(2),
++                heapUsedPercent: ((memoryUsage.heapUsed / totalMemory) * 100).toFixed(2),
++                externalPercent: ((memoryUsage.external / totalMemory) * 100).toFixed(2)
++            },
+             loadAvg: os.loadavg(),
+             uptime: process.uptime(),
+-            healthStatus: this.calculateHealthStatus(process.cpuUsage(), process.memoryUsage())
++            totalMemory
+         };
+ 
+         try {
+@@ -50,7 +71,7 @@
+ 
+ // Configure client ID and server URL
+ const clientId = uuidv4();
+-const serverUrl = 'http://localhost:3000'; // Update with actual server URL
++const serverUrl = 'http://192.168.1.70:3000'; // Update with actual server URL
+ 
+ // Create client instance and start sending metrics
+ const client = new NodeMonitoringClient(clientId, serverUrl);
+Index: Client/index.html
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><!DOCTYPE html>\r\n<html lang=\"en\">\r\n<head>\r\n    <meta charset=\"UTF-8\">\r\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\r\n    <title>Node Monitoring Dashboard</title>\r\n    <style>\r\n        table {\r\n            width: 100%;\r\n            border-collapse: collapse;\r\n        }\r\n        th, td {\r\n            border: 1px solid #ddd;\r\n            padding: 8px;\r\n            text-align: left;\r\n        }\r\n        th {\r\n            background-color: #f2f2f2;\r\n        }\r\n        button {\r\n            margin: 10px;\r\n            padding: 10px 20px;\r\n            font-size: 16px;\r\n        }\r\n    </style>\r\n</head>\r\n<body>\r\n<h1>Node Monitoring Dashboard</h1>\r\n<button id=\"toggle-metrics\">Show Archived Metrics</button>\r\n<button id=\"delete-all-metrics\">Delete All Metrics</button>\r\n<table id=\"metrics-table\">\r\n    <thead>\r\n    <tr>\r\n        <th>Client ID</th>\r\n        <th>Timestamp</th>\r\n        <th>CPU Usage (User)</th>\r\n        <th>CPU Usage (System)</th>\r\n        <th>Memory Usage (RSS)</th>\r\n        <th>Memory Usage (Heap Total)</th>\r\n        <th>Memory Usage (Heap Used)</th>\r\n        <th>Memory Usage (External)</th>\r\n\r\n        <th>Uptime (seconds)</th>\r\n    </tr>\r\n    </thead>\r\n    <tbody id=\"metrics-body\">\r\n    </tbody>\r\n</table>\r\n\r\n<script>\r\n    let showingArchived = false;\r\n    const toggleButton = document.getElementById('toggle-metrics');\r\n    const deleteButton = document.getElementById('delete-all-metrics');\r\n\r\n    async function fetchMetrics(url, tableBodyId) {\r\n        const response = await fetch(url);\r\n        const metrics = await response.json();\r\n\r\n        const tableBody = document.getElementById(tableBodyId);\r\n        tableBody.innerHTML = ''; // Clear the table body\r\n\r\n        metrics.forEach(metric => {\r\n            let row = document.querySelector(`#metrics-body tr[data-client-id=\"${metric.clientId}\"]`);\r\n            if (!row) {\r\n                row = document.createElement('tr');\r\n                row.setAttribute('data-client-id', metric.clientId);\r\n                tableBody.appendChild(row);\r\n            }\r\n\r\n            row.innerHTML = `\r\n          <td>${metric.clientId}</td>\r\n          <td>${new Date(metric.timestamp).toLocaleString()}</td>\r\n          <td>${metric.cpuUsage.user}</td>\r\n          <td>${metric.cpuUsage.system}</td>\r\n          <td>${metric.memoryUsage.rss}</td>\r\n          <td>${metric.memoryUsage.heapTotal}</td>\r\n          <td>${metric.memoryUsage.heapUsed}</td>\r\n          <td>${metric.memoryUsage.external}</td>\r\n\r\n          <td>${metric.uptime}</td>\r\n        `;\r\n        });\r\n    }\r\n\r\n    async function updateMetrics() {\r\n        if (showingArchived) {\r\n            await fetchMetrics('http://localhost:3000/archived-metrics', 'metrics-body');\r\n        } else {\r\n            await fetchMetrics('http://localhost:3000/all-metrics', 'metrics-body');\r\n        }\r\n    }\r\n\r\n    async function deleteAllMetrics() {\r\n        await fetch('http://localhost:3000/delete-all-metrics', { method: 'DELETE' });\r\n        updateMetrics(); // Refresh the metrics display\r\n    }\r\n\r\n    toggleButton.addEventListener('click', () => {\r\n        showingArchived = !showingArchived;\r\n        toggleButton.textContent = showingArchived ? 'Show New Metrics' : 'Show Archived Metrics';\r\n        updateMetrics();\r\n    });\r\n\r\n    deleteButton.addEventListener('click', () => {\r\n        if (confirm('Are you sure you want to delete all metrics?')) {\r\n            deleteAllMetrics();\r\n        }\r\n    });\r\n\r\n    setInterval(() => {\r\n        updateMetrics();\r\n    }, 5000); // Fetch metrics every 5 seconds\r\n\r\n    // Initial fetch\r\n    updateMetrics();\r\n</script>\r\n</body>\r\n</html>\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/Client/index.html b/Client/index.html
+--- a/Client/index.html	
++++ b/Client/index.html	
+@@ -34,12 +34,17 @@
+         <th>Client ID</th>
+         <th>Timestamp</th>
+         <th>CPU Usage (User)</th>
++        <th>CPU Usage (User %)</th>
+         <th>CPU Usage (System)</th>
++        <th>CPU Usage (System %)</th>
+         <th>Memory Usage (RSS)</th>
++        <th>Memory Usage (RSS %)</th>
+         <th>Memory Usage (Heap Total)</th>
++        <th>Memory Usage (Heap Total %)</th>
+         <th>Memory Usage (Heap Used)</th>
++        <th>Memory Usage (Heap Used %)</th>
+         <th>Memory Usage (External)</th>
+-
++        <th>Memory Usage (External %)</th>
+         <th>Uptime (seconds)</th>
+     </tr>
+     </thead>
+@@ -68,17 +73,22 @@
+             }
+ 
+             row.innerHTML = `
+-          <td>${metric.clientId}</td>
+-          <td>${new Date(metric.timestamp).toLocaleString()}</td>
+-          <td>${metric.cpuUsage.user}</td>
+-          <td>${metric.cpuUsage.system}</td>
+-          <td>${metric.memoryUsage.rss}</td>
+-          <td>${metric.memoryUsage.heapTotal}</td>
+-          <td>${metric.memoryUsage.heapUsed}</td>
+-          <td>${metric.memoryUsage.external}</td>
+-
+-          <td>${metric.uptime}</td>
+-        `;
++                <td>${metric.clientId}</td>
++                <td>${new Date(metric.timestamp).toLocaleString()}</td>
++                <td>${metric.cpuUsage.user}</td>
++                <td>${metric.cpuUsage.userCpuPercentage}%</td>
++                <td>${metric.cpuUsage.system}</td>
++                <td>${metric.cpuUsage.systemCpuPercentage}%</td>
++                <td>${metric.memoryUsage.rss}</td>
++                <td>${metric.memoryUsage.rssPercent}%</td>
++                <td>${metric.memoryUsage.heapTotal}</td>
++                <td>${metric.memoryUsage.heapTotalPercent}%</td>
++                <td>${metric.memoryUsage.heapUsed}</td>
++                <td>${metric.memoryUsage.heapUsedPercent}%</td>
++                <td>${metric.memoryUsage.external}</td>
++                <td>${metric.memoryUsage.externalPercent}%</td>
++                <td>${metric.uptime}</td>
++            `;
+         });
+     }
+ 
