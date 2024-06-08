@@ -6,6 +6,7 @@ const logger = require('morgan');
 
 const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
+const commandRouter = require('./routes/command')
 
 const app = express();
 
@@ -21,6 +22,7 @@ app.use(cookieParser());
 // Use the routers
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
+app.use('/commands', commandRouter);
 
 // Serve the client UI
 app.use('/ui', express.static(path.join(__dirname, 'client')));
@@ -42,8 +44,10 @@ app.use(function(err, req, res, next) {
 });
 
 const port = process.env.PORT || 3000;
+
 app.listen(port, '0.0.0.0', () => {
   console.log(`Server is running at http://localhost:${port}/ui/index.html`);
 });
+
 
 module.exports = app;

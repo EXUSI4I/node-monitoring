@@ -1,7 +1,9 @@
 const os = require('os');
 const axios = require('axios');
 const { v4: uuidv4 } = require('uuid');
+const express = require('express')
 
+//CLIENT
 class NodeMonitoringClient {
     constructor(clientId, serverUrl) {
         this.clientId = clientId;
@@ -70,7 +72,7 @@ class NodeMonitoringClient {
 
 // Configure client ID and server URL
 const clientId = uuidv4();
-const serverUrl = 'http://192.168.1.70:3000'; // Update with actual server URL
+const serverUrl = 'http://172.16.128.218:3000'; // Update with actual server URL
 
 // Create client instance and start sending metrics
 const client = new NodeMonitoringClient(clientId, serverUrl);
@@ -78,3 +80,21 @@ const client = new NodeMonitoringClient(clientId, serverUrl);
 setInterval(() => {
     client.sendMetrics();
 }, 5000); // Send metrics every 5 seconds
+
+
+
+//SERVER
+const servant_server = express();
+
+const servantServerIndexRouter = require('../routes/servant_server_index')
+
+servant_server.use('/commands', servantServerIndexRouter);
+
+const PORT = 5000;
+servant_server.listen(PORT, 'localhost', () => {
+  console.log(`Slave node is running at http://localhost:${PORT}`);
+});
+
+module.exports = servant_server;
+
+
