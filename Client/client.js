@@ -1,35 +1,55 @@
-const axios = require('axios');
 const os = require('os');
+const axios = require('axios');
 const { v4: uuidv4 } = require('uuid');
 
 class NodeMonitoringClient {
     constructor(clientId, serverUrl) {
         this.clientId = clientId;
         this.serverUrl = serverUrl;
+        this.totalMemory = os.totalmem();
+        this.prevCpuUsage = process.cpuUsage();
+        this.prevUptime = process.uptime();
     }
 
-    calculateHealthStatus(cpuUsage, memoryUsage) {
-        const cpuThreshold = 80; // 80% CPU usage threshold
-        const memoryThreshold = 75 * 1024 * 1024; // 75MB memory usage threshold
-        
-        const cpuLoad = (cpuUsage.user + cpuUsage.system) / 1000000; // Convert microseconds to seconds
-        const memoryLoad = memoryUsage.heapUsed;
+    calculateCpuUsagePercentage() {
+        const currentCpuUsage = process.cpuUsage();
+        const currentUptime = process.uptime();
 
-        if (cpuLoad > cpuThreshold || memoryLoad > memoryThreshold) {
-            return 'unhealthy';
-        }
-        return 'healthy';
+        const userCpuTime = currentCpuUsage.user - this.prevCpuUsage.user;
+        const systemCpuTime = currentCpuUsage.system - this.prevCpuUsage.system;
+        const elapsedTime = (currentUptime - this.prevUptime) * 1000000; // Convert to microseconds
+
+        const userCpuPercentage = ((userCpuTime / elapsedTime) * 100).toFixed(2);
+        const systemCpuPercentage = ((systemCpuTime / elapsedTime) * 100).toFixed(2);
+
+        this.prevCpuUsage = currentCpuUsage;
+        this.prevUptime = currentUptime;
+
+        return { userCpuPercentage, systemCpuPercentage };
     }
 
     async sendMetrics() {
+        const memoryUsage = process.memoryUsage();
+        const totalMemory = this.totalMemory;
+        const { userCpuPercentage, systemCpuPercentage } = this.calculateCpuUsagePercentage();
+
         const metrics = {
             clientId: this.clientId,
             timestamp: new Date(),
-            cpuUsage: process.cpuUsage(),
-            memoryUsage: process.memoryUsage(),
-            loadAvg: os.loadavg(),
+            cpuUsage: {
+                ...process.cpuUsage(),
+                userCpuPercentage,
+                systemCpuPercentage
+            },
+            memoryUsage: {
+                ...memoryUsage,
+                rssPercent: ((memoryUsage.rss / totalMemory) * 100).toFixed(2),
+                heapTotalPercent: ((memoryUsage.heapTotal / totalMemory) * 100).toFixed(2),
+                heapUsedPercent: ((memoryUsage.heapUsed / totalMemory) * 100).toFixed(2),
+                externalPercent: ((memoryUsage.external / totalMemory) * 100).toFixed(2)
+            },
             uptime: process.uptime(),
-            healthStatus: this.calculateHealthStatus(process.cpuUsage(), process.memoryUsage())
+            totalMemory
         };
 
         try {
@@ -50,7 +70,7 @@ class NodeMonitoringClient {
 
 // Configure client ID and server URL
 const clientId = uuidv4();
-const serverUrl = 'http://localhost:3000'; // Update with actual server URL
+const serverUrl = 'http://192.168.1.70:3000'; // Update with actual server URL
 
 // Create client instance and start sending metrics
 const client = new NodeMonitoringClient(clientId, serverUrl);
